@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>favicon-badge Demo</title>
+    <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+    <link rel="import" href="../favicon-badge.html">
+
+    <link rel="shortcut icon" href="p-logo-32.png">
+
+  </head>
+  <body unresolved>
+
+    <link rel="import" href="../../paper-button/paper-button.html">
+    <link rel="import" href="../../paper-menu/paper-menu.html">
+    <link rel="import" href="../../paper-item/paper-item.html">
+
+    <dom-module id="x-demo">
+      <template>
+        <style>
+          :host {
+            display: block;
+          }
+        </style>
+
+        <favicon-badge id="el" number="5"></favicon-badge>
+
+        <h1>Favicon Badge demo</h1>
+
+        <p>Look at your favicon!</p>
+
+        <paper-button raised on-tap="_increment">+1</paper-button>
+        <paper-button raised on-tap="_decrement">-1</paper-button>
+
+        <div class="horizontal layout">
+          <div class="flex">
+            <h2>Animation</h2>
+
+            <paper-menu selected="0" on-iron-select="_animationChanged">
+              <paper-item>slide</paper-item>
+              <paper-item>fade</paper-item>
+              <paper-item>pop</paper-item>
+              <paper-item>popFade</paper-item>
+              <paper-item>none</paper-item>
+            </paper-menu>
+          </div>
+          <div class="flex">
+            <h2>Badge Color</h2>
+
+            <paper-menu selected="0" on-iron-select="_badgeColorChanged">
+              <paper-item>#ff0000</paper-item>
+              <paper-item>#00ff00</paper-item>
+              <paper-item>#0000ff</paper-item>
+            </paper-menu>
+          </div>
+          <div class="flex">
+
+          </div>
+        </div>
+
+      </template>
+      <script>
+        Polymer({
+          is: 'x-demo',
+          properties: {
+
+          },
+          _increment: function() { this.$.el.increment(); },
+          _decrement: function() { this.$.el.decrement(); },
+          _animationChanged: function(event) {
+            this.$.el.animation = event.detail.item.innerText;
+          },
+          _badgeColorChanged: function(event) {
+            this.$.el.bgColor = event.detail.item.innerText;
+          }
+        });
+      </script>
+    </dom-module>
+
+    <x-demo></x-demo>
+
+  </body>
+</html>

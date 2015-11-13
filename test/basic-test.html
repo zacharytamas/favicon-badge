@@ -1,0 +1,128 @@
+<!doctype html>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../favicon-badge.html">
+  </head>
+  <body>
+
+    <favicon-badge>
+    </favicon-badge>
+
+    <script>
+      var el = document.querySelector('favicon-badge');
+
+      function validateProperty(name, type, defaultValue) {
+        var message = 'should have a `' + name + '` property that is a ' + type.name;
+        if (defaultValue !== undefined) {
+          message += ' and ' + defaultValue.toString() + ' by default';
+        }
+        it(message, function() {
+          var prop = el.properties[name];
+          expect(prop).to.exist;
+          expect(prop.type).to.equal(type);
+          if (defaultValue !== undefined) {
+            expect(prop.value).to.equal(defaultValue);
+          }
+        });
+      }
+
+      function validateProperties(propsArray) {
+        propsArray.forEach(function (args) {
+          validateProperty.apply(null, args);
+        });
+      }
+
+      describe('<favicon-badge>', function() {
+        describe('Properties', function() {
+          validateProperties([
+            ['animation', String, 'slide'],
+            ['bgColor', String, '#dd0000'],
+            ['fontFamily', String, 'sans-serif'],
+            ['fontStyle', String, 'bold'],
+            ['position', String, 'down'],
+            ['textColor', String, '#ffffff'],
+            ['type', String, 'circle'],
+            ['number', Number, 0]
+          ]);
+        });
+
+        describe('Number behaviors', function() {
+
+          it('Should be 0 by default', function() {
+            expect(el.number).to.equal(0);
+          });
+
+          it('Should increment and decrement with their methods', function() {
+            // Case 1: Without arguments these elements default to 1.
+            expect(el.number).to.equal(0);
+            el.increment();
+            expect(el.number).to.equal(1);
+            el.decrement();
+            expect(el.number).to.equal(0);
+
+            // Case 2: But you can also pass a value in to increment/decrement
+            // by that.
+            expect(el.number).to.equal(0);
+            el.increment(2);
+            expect(el.number).to.equal(2);
+            el.decrement(2);
+            expect(el.number).to.equal(0);
+          });
+
+          it('Should call the `badge` method of Favico when the number changes', function() {
+            sinon.stub(el.favicon, 'badge');
+
+            // Case 1: it shouldn't call it if the number didn't actually change.
+            expect(el.number).to.equal(0);
+            el.number = 0;
+            expect(el.favicon.badge).not.to.have.been.called;
+
+            // Case 2: Actually changing it should cause it to be called.
+            el.number = 10;
+            expect(el.favicon.badge).to.have.been.called;
+            expect(el.favicon.badge.lastCall.args).to.deep.equal([el.number]);
+            el.favicon.badge.restore();
+          });
+        });
+
+        describe('Configuration', function() {
+          it('Should call _setupFavico when the configuration changes', function() {
+
+            // Stub the method because I don't care about its behavior,
+            // only that it is called.
+            sinon.stub(el, '_setupFavico');
+
+            el.animation = 1;
+            el.bgColor = 2;
+            el.fontFamily = 3;
+            el.fontStyle = 4;
+            el.position = 5;
+            el.textColor = 6;
+            el.type = 7;
+
+            expect(el._setupFavico.lastCall.args).to.deep.equal([1, 2, 3, 4, 5, 6, 7]);
+
+            el._setupFavico.restore();
+          });
+        });
+
+      });
+    </script>
+
+  </body>
+</html>

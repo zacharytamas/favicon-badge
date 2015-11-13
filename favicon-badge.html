@@ -1,0 +1,146 @@
+<link rel="import" href="../polymer/polymer.html">
+<script src="../favico.js/favico.js" charset="utf-8"></script>
+
+<!--
+A Polymer element for declaratively updating the favicon for your webapp with dynamically-set numbers.
+
+Example:
+
+    <favicon-badge
+      bg-color="green"
+      number="[[unreadMessagesCount]]"></favicon-badge>
+
+@demo demo/index.html
+@hero hero.svg
+-->
+<dom-module id="favicon-badge">
+
+  <script>
+    Polymer({
+      is: 'favicon-badge',
+
+      properties: {
+        /**
+         * Badge background color
+         */
+        bgColor: {
+          type: String,
+          value: '#dd0000'
+        },
+
+        /**
+         * Badge text color
+         */
+        textColor: {
+          type: String,
+          value: '#ffffff'
+        },
+
+        /**
+         * Text font family (Arial, Verdana, Times New Roman, serif, sans-serif,...)
+         */
+        fontFamily: {
+          type: String,
+          value: 'sans-serif'
+        },
+
+        /**
+         * Font style (normal, italic, oblique, bold, bolder, lighter, 100, 200, 300, 400, 500, 600, 700, 800, 900)
+         */
+        fontStyle: {
+          type: String,
+          value: 'bold'
+        },
+
+        /**
+         * Badge shape (circle, rectangle)
+         */
+        type: {
+          type: String,
+          value: 'circle'
+        },
+
+        /**
+         * Badge position (up, down, left, upleft)
+         */
+        position: {
+          type: String,
+          value: 'down'
+        },
+
+        /**
+         * Badge animation type (slide, fade, pop, popFade, none )
+         */
+        animation: {
+          type: String,
+          value: 'slide'
+        },
+
+        /**
+         * Number to be shown on the badge.
+         */
+        number: {
+          type: Number,
+          observer: '_updateBadge',
+          value: 0
+        }
+      },
+
+      observers: [
+        '_setupFavico(animation, bgColor, fontFamily, fontStyle, ' +
+          'position, textColor, type)'
+      ],
+
+      ready: function() {
+        this._setupFavico();
+      },
+
+      /**
+       * Increments the number by a provided value. If value is missing,
+       * defaults to `1`.
+       */
+      increment: function(scalar) {
+        this.number += (scalar || 1);
+      },
+
+      /**
+       * Decrements the number by a provided value. If value is missing,
+       * defaults to `1`.
+       */
+      decrement: function(scalar) {
+        this.number -= (scalar || 1);
+      },
+
+      /**
+       * Resets the number to `0`, removing the badge.
+       */
+      reset: function() {
+        this.number = 0;
+        this.favicon.reset();
+      },
+
+      _setupFavico: function() {
+        this.favicon = new Favico({
+          bgColor: this.bgColor,
+          textColor: this.textColor,
+          fontFamily: this.fontFamily,
+          fontStyle: this.fontStyle,
+          type: this.type,
+          position: this.position,
+          animation: this.animation
+        });
+
+        if (this.number) {
+          this._updateBadge();
+        }
+      },
+
+      _updateBadge: function(number) {
+        if (this.favicon) {
+          this.favicon.badge(this.number);
+        }
+      }
+
+    });
+  </script>
+</dom-module>
