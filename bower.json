@@ -1,0 +1,27 @@
+{
+  "name": "favicon-badge",
+  "version": "1.0.0",
+  "authors": [
+    "Zachary Jones <zacharytamas@gmail.com>"
+  ],
+  "description": "A Polymer element for declaratively updating the favicon for your webapp with dynamically-set numbers.",
+  "keywords": [
+    "web-component",
+    "polymer"
+  ],
+  "main": "favicon-badge.html",
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "homepage": "https://github.com/zacharytamas/favicon-badge/",
+  "ignore": [
+    "/.*",
+    "/test/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.2.0",
+    "favico.js": "~0.3.10"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "web-component-tester": "*"
+  }
+}
