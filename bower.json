@@ -7,6 +7,7 @@
   "description": "A Polymer element for declaratively updating the favicon for your webapp with dynamically-set numbers.",
   "keywords": [
     "web-component",
+    "web-components",
     "polymer"
   ],
   "main": "favicon-badge.html",
