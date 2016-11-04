@@ -1,5 +1,7 @@
 # favicon-badge
 
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://beta.webcomponents.org/element/zacharytamas/favicon-badge)
+
 An element for declaratively updating the favicon for your webapp with dynamically-set numbers. Powered by [Favico.js](https://github.com/ejci/favico.js).
 
 
